@@ -4,9 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Shiritore"
+        xmlns:ui="clr-namespace:Shiritore.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="メイン画面" Height="366.067" Width="470.843">
+    <Window.Resources>
+        <ui:GenreListUI x:Key="GenreListUi"/>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel Height="20" DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button>ゲーム画面表示・非表示切り替え</Button>
+            <Button>ゲームデータ初期化</Button>
+            <Button>ゲームデータ読み込み</Button>
+            <Button>ゲームデータ保存</Button>
+        </StackPanel>
+        <ListView DockPanel.Dock="Bottom" View="{DynamicResource GenreListUi}"></ListView>
+    </DockPanel>
 </Window>
