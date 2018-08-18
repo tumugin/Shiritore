@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Shiritore.UI"
         mc:Ignorable="d"
-        Title="GameWindow" Height="450" Width="800">
+        Title="GameWindow" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
         <local:ShiritorePlayUI DataContext="{Binding PlayGenre.Value}" Visibility="{Binding IsShowingShiritoreUI.Value}"/>
         <local:PlayGenreListUI DataContext="{Binding}" Visibility="{Binding IsShowingGenreUI.Value}"/>

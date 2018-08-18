@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Reactive.Bindings;
 
 namespace Shiritore.GameSystem
@@ -18,24 +19,19 @@ namespace Shiritore.GameSystem
         public ReactiveProperty<string> GenreCaption { get; set; } = new ReactiveProperty<string>();
         public ReactiveProperty<bool> IsPlayed { get; set; } = new ReactiveProperty<bool>(false);
 
-        public ReactiveProperty<string> GenreListCaption { get; } = new ReactiveProperty<string>();
-
-        public int TimerTime { get; set; }
-        public bool IsTimerRunning => timertask?.Status == TaskStatus.Running;
-
-        private Task timertask;
-        private CancellationTokenSource cts = new CancellationTokenSource();
+        [JsonIgnore] public ReactiveProperty<string> GenreListCaption { get; } = new ReactiveProperty<string>();
+        [JsonIgnore] public int TimerTime { get; set; }
+        [JsonIgnore] public bool IsTimerRunning => timertask?.Status == TaskStatus.Running;
+        [JsonIgnore] private Task timertask;
+        [JsonIgnore] private CancellationTokenSource cts = new CancellationTokenSource();
 
         public Genre()
         {
-            Problems.CollectionChanged += (sender, args) =>
-            {
-                OnPropertyChanged("Problems");
-            };
+            Problems.CollectionChanged += (sender, args) => { OnPropertyChanged("Problems"); };
             GenreCaption.PropertyChanged += (sender, args) =>
-                {
-                    GenreListCaption.Value = IsPlayed.Value ? "済" : GenreCaption.Value;
-                };
+            {
+                GenreListCaption.Value = IsPlayed.Value ? "済" : GenreCaption.Value;
+            };
             IsPlayed.PropertyChanged += (sender, args) =>
             {
                 GenreListCaption.Value = IsPlayed.Value ? "済" : GenreCaption.Value;

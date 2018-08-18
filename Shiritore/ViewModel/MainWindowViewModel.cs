@@ -28,5 +28,25 @@ namespace Shiritore.ViewModel
             Genres.Add(genre);
             return genre;
         }
+
+        public void LoadConfig(string path)
+        {
+            var bary = System.IO.File.ReadAllBytes(path);
+            var rawjson = Encoding.UTF8.GetString(bary);
+            var config = SettingStore.loadSettingJSON(rawjson);
+            SettingStore.SingletonStore = config;
+        }
+
+        public void SaveConfig(string path)
+        {
+            var json = SettingStore.getSettingJSON(SettingStore.SingletonStore);
+            var bary = Encoding.UTF8.GetBytes(json);
+            System.IO.File.WriteAllBytes(path, bary);
+        }
+
+        public void DeleteGenres(IEnumerable<Genre> list)
+        {
+            list.ToList().ForEach(x => { Genres.Remove(x); });
+        }
     }
 }
