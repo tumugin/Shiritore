@@ -5,6 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Shiritore.UI"
              mc:Ignorable="d" >
-    <GridViewColumn Header="ジャンル名" DisplayMemberBinding="{Binding GenreCaption}"/>
+    <GridViewColumn Header="ジャンル名" DisplayMemberBinding="{Binding GenreCaption.Value}"/>
     <GridViewColumn Header="問題" DisplayMemberBinding="{Binding Problems,Converter={StaticResource ProblemsToString}}"/>
+    <GridViewColumn Header="操作" Width="200">
+        <GridViewColumn.CellTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="PlayGenreButton" Click="PlayGenreButton_Click">このジャンル遊ぶ</Button>
+                    <Button x:Name="EditGenreButton" Click="EditGenreButton_Click">編集する</Button>
+                </StackPanel>
+            </DataTemplate>
+        </GridViewColumn.CellTemplate>
+    </GridViewColumn>
 </GridView>

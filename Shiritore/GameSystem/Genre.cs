@@ -3,33 +3,44 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Reactive.Bindings;
 
 namespace Shiritore.GameSystem
 {
     public class Genre : INotifyPropertyChanged
     {
-        public ObservableCollection<Problem> Problems { get; set; } = new ObservableCollection<Problem>();
+        public ReactiveCollection<Problem> Problems { get; set; } = new ReactiveCollection<Problem>();
+        public ReactiveProperty<string> GenreCaption { get; set; } = new ReactiveProperty<string>();
+        public ReactiveProperty<bool> IsPlayed { get; set; } = new ReactiveProperty<bool>(false);
 
-        private string genreCaption;
-        public string GenreCaption
-        {
-            get => genreCaption;
-            set
-            {
-                genreCaption = value;
-                OnPropertyChanged();
-            }
-        }
+        public ReactiveProperty<string> GenreListCaption { get; } = new ReactiveProperty<string>();
 
         public int TimerTime { get; set; }
         public bool IsTimerRunning => timertask?.Status == TaskStatus.Running;
 
         private Task timertask;
         private CancellationTokenSource cts = new CancellationTokenSource();
+
+        public Genre()
+        {
+            Problems.CollectionChanged += (sender, args) =>
+            {
+                OnPropertyChanged("Problems");
+            };
+            GenreCaption.PropertyChanged += (sender, args) =>
+                {
+                    GenreListCaption.Value = IsPlayed.Value ? "済" : GenreCaption.Value;
+                };
+            IsPlayed.PropertyChanged += (sender, args) =>
+            {
+                GenreListCaption.Value = IsPlayed.Value ? "済" : GenreCaption.Value;
+            };
+        }
 
         public void StartTimer()
         {
@@ -58,10 +69,9 @@ namespace Shiritore.GameSystem
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            // Raise the PropertyChanged event, passing the name of the property whose value has changed.
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

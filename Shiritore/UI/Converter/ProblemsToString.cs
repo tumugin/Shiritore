@@ -17,7 +17,7 @@ namespace Shiritore.UI.Converter
             if (!(value is IEnumerable<Problem>)) throw new ArgumentException("value must be IEnumerable<Problem>.");
             var cval = (IEnumerable<Problem>) value;
             var retstr = "";
-            cval.Select(i => retstr += i.ProblemText);
+            cval.ToList().ForEach(i => retstr += i.ProblemText.Value);
             return retstr;
         }
 

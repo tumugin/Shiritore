@@ -11,12 +11,18 @@
         <ui:GenreListUI x:Key="GenreListUi"/>
     </Window.Resources>
     <DockPanel>
-        <StackPanel Height="20" DockPanel.Dock="Top" Orientation="Horizontal">
+        <StackPanel Height="30" DockPanel.Dock="Top" Orientation="Horizontal">
             <Button>ゲーム画面表示・非表示切り替え</Button>
             <Button>ゲームデータ初期化</Button>
             <Button>ゲームデータ読み込み</Button>
             <Button>ゲームデータ保存</Button>
         </StackPanel>
-        <ListView DockPanel.Dock="Bottom" View="{DynamicResource GenreListUi}"></ListView>
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom" Height="30" Orientation="Horizontal">
+                <Button x:Name="AddGenreButton" Click="AddGenreButton_Click">新規ジャンル追加</Button>
+                <Button>選択したジャンルを削除</Button>
+            </StackPanel>
+            <ListView View="{DynamicResource GenreListUi}" ItemsSource="{Binding Genres}" DockPanel.Dock="Top" />
+        </DockPanel>
     </DockPanel>
 </Window>

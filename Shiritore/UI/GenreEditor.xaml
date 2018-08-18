@@ -1,0 +1,45 @@
+﻿<Window x:Class="Shiritore.UI.GenreEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Shiritore.UI"
+        mc:Ignorable="d"
+        Title="ジャンル編集画面" Height="394.403" Width="556.125">
+    <DockPanel>
+        <StackPanel Margin="10" DockPanel.Dock="Top">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Margin" Value="0,5,0,5" />
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Horizontal">
+                <Label>ジャンル名</Label>
+                <TextBox Width="200pt" Text="{Binding GenreCaption.Value}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>問題テキスト</Label>
+                <TextBox x:Name="ProblemTextbox" Width="300pt"
+                         Text="{Binding Problems,Converter={StaticResource ProblemsToString},Mode=OneWay}" />
+                <Button x:Name="ApplyButton" Click="ApplyButton_Click">反映</Button>
+            </StackPanel>
+            <Label>※問題テキストを反映すると正解とボーナスの状態がリセットされます</Label>
+        </StackPanel>
+        <ListView ItemsSource="{Binding Problems}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="文字" Width="100" DisplayMemberBinding="{Binding ProblemText.Value}" />
+                    <GridViewColumn Header="ボーナス" Width="50">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <CheckBox IsChecked="{Binding IsBonus.Value}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Window>
